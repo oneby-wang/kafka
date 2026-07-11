@@ -785,6 +785,7 @@ org.apache.kafka.metadata.PartitionRegistrationTest:
 - testBuilderThrowsIllegalStateExceptionWhenMissingLeaderRecoveryState
 - testBuilderThrowsIllegalStateExceptionWhenMissingPartitionEpoch
 - testBuilderThrowsIllegalStateExceptionWhenMissingReplicas
+- testConsistentEqualsAndHashCode
 - testDirectories
 - testElectionWasUnclean
 - testMergePartitionChangeRecordWithReassignmentData
@@ -832,6 +833,11 @@ org.apache.kafka.metadata.authorizer.StandardAclTest:
 org.apache.kafka.metadata.authorizer.StandardAclWithIdTest:
 - testEquals
 - testToRecordRoundTrips
+org.apache.kafka.metadata.authorizer.StandardAuthorizerPropertyTest:
+- matchingLiteralAllowWithNoMatchingDenyRules
+- matchingLiteralDenyOverridesAllAllowRules
+- matchingPrefixAllowWithNoMatchingDenyRules
+- matchingPrefixDenyOverridesAllAllowRules
 org.apache.kafka.metadata.authorizer.StandardAuthorizerTest:
 - testAllowAuditLogging
 - testAllowEveryoneIfNoAclFoundConfigDisabled
@@ -900,7 +906,6 @@ org.apache.kafka.metadata.storage.FormatterTest:
 - testFormatWithInitialVoters
 - testFormatWithInitialVotersFailsWithOlderKraftVersion
 - testFormatWithInitialVotersWithOlderMetadataVersion
-- testFormatWithInvalidClusterId
 - testFormatWithNoInitialControllers
 - testFormatWithNoInitialControllersWithOlderMetadataVersion
 - testFormatWithOlderReleaseVersion
@@ -909,7 +914,6 @@ org.apache.kafka.metadata.storage.FormatterTest:
 - testFormatWithStaticQuorumFailsWithNewerKraftVersion
 - testFormatWithUnstableReleaseVersion
 - testFormatWithUnstableReleaseVersionFailsWithoutEnableUnstable
-- testFormatWithValidClusterId
 - testFormatterFailsOnAlreadyFormatted
 - testFormatterFailsOnUnwritableDirectory
 - testFormattingCreatesLogDirId

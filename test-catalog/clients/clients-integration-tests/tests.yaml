@@ -263,7 +263,6 @@ org.apache.kafka.clients.consumer.PlaintextConsumerSubscriptionTest:
 org.apache.kafka.clients.consumer.PlaintextConsumerTest:
 - testAsyncConsumeCoordinatorFailover
 - testAsyncConsumerAutoOffsetReset
-- testAsyncConsumerCloseLeavesGroupOnInterrupt
 - testAsyncConsumerCloseOnBrokerShutdown
 - testAsyncConsumerClusterResourceListener
 - testAsyncConsumerConsumeMessagesWithCreateTime
@@ -302,7 +301,6 @@ org.apache.kafka.clients.consumer.PlaintextConsumerTest:
 - testAsyncConsumerUnsubscribeDoesNotCommitOffsetsWithAutoCommitEnabled
 - testAsyncStaticMemberCloseWithLeaveGroupTriggersRebalance
 - testClassicConsumerAutoOffsetReset
-- testClassicConsumerCloseLeavesGroupOnInterrupt
 - testClassicConsumerCloseOnBrokerShutdown
 - testClassicConsumerClusterResourceListener
 - testClassicConsumerConsumeMessagesWithCreateTime
@@ -356,6 +354,18 @@ org.apache.kafka.clients.consumer.ShareConsumerCallbackTest:
 - testAcknowledgementCommitCallbackSuccessfulAcknowledgementOnCommitSync
 - testAcknowledgementCommitCallbackThrowsException
 - testAcknowledgementSentOnSubscriptionChange
+org.apache.kafka.clients.consumer.ShareConsumerDLQTest:
+- testDlqCopiesRecordsReadFromRemoteAndLocalStorage
+- testDlqCopiesRecordsReadFromRemoteStorage
+- testDlqNotTriggeredWhenGatedOff
+- testDlqRecordsRoutedToCorrectDlqPartition
+- testDlqStopsAfterDisablingForGroup
+- testManyRejectedRecordsAllWrittenToDlq
+- testMixedAcknowledgementTypesWrittenToDlq
+- testRejectedRecordsWrittenToAutoCreatedDlq
+- testRejectedRecordsWrittenToDlqWithCopyRecordDisabled
+- testRejectedRecordsWrittenToDlqWithCopyRecordEnabled
+- testReleasedRecordsExceedingDeliveryCountWrittenToDlq
 org.apache.kafka.clients.consumer.ShareConsumerDeliveryTest:
 - testAlterReadCommittedToReadUncommittedIsolationLevelWithRejectAck
 - testAlterReadCommittedToReadUncommittedIsolationLevelWithReleaseAck
@@ -402,6 +412,7 @@ org.apache.kafka.clients.consumer.ShareConsumerRenewTest:
 - testRenewAcknowledgementOnPoll
 org.apache.kafka.clients.consumer.ShareConsumerTest:
 - testAcquisitionLockTimeoutOnConsumer
+- testAddedPartitionsOfKnownTopicStartAtOffsetZero
 - testCommitSyncFailsForDeletedTopic
 - testComplexShareConsumer
 - testConfiguredExplicitAcknowledgeCommitSuccess
