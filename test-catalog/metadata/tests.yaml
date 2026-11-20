@@ -1,6 +1,8 @@
 org.apache.kafka.controller.AclControlManagerTest:
 - testAddAndDelete
+- testBuilderRequiresPositiveMaxRecordsPerBatch
 - testCreateAclDeleteAcl
+- testCreateAclWithCidrHosts
 - testCreateDedupe
 - testDeleteDedupe
 - testDeleteExceedsMaxRecords
@@ -8,6 +10,9 @@ org.apache.kafka.controller.AclControlManagerTest:
 - testValidateAclWithBadPrincipal
 - testValidateAclWithEmptyPrincipal
 - testValidateFilter
+- testValidateHostPatternCidrNotSupported
+- testValidateHostPatternInvalid
+- testValidateHostPatternValid
 - testValidateNewAcl
 org.apache.kafka.controller.ActivationRecordsGeneratorTest:
 - testActivationMessageForEmptyLog
@@ -42,6 +47,7 @@ org.apache.kafka.controller.BrokersToIsrsTest:
 - testNoLeader
 org.apache.kafka.controller.ClientQuotaControlManagerTest:
 - testAlterAndRemove
+- testBuilderRequiresPositiveMaxRecordsPerBatch
 - testConfigKeysForEmptyEntity
 - testConfigKeysForEntityTypeWithClientId
 - testConfigKeysForEntityTypeWithIp
@@ -58,6 +64,10 @@ org.apache.kafka.controller.ClientQuotaControlManagerTest:
 - testIsValidIpEntityWithUnresolvableHostname
 - testValidateQuotaKeyValueForConsumerByteRateTooLarge
 - testValidateQuotaKeyValueForFractionalConsumerByteRate
+- testValidateQuotaKeyValueForInfiniteConsumerByteRate
+- testValidateQuotaKeyValueForInfiniteRequestPercentage
+- testValidateQuotaKeyValueForNaNConsumerByteRate
+- testValidateQuotaKeyValueForNaNRequestPercentage
 - testValidateQuotaKeyValueForNegativeQuota
 - testValidateQuotaKeyValueForUnknownQuota
 - testValidateQuotaKeyValueForValidConsumerByteRate
@@ -85,7 +95,15 @@ org.apache.kafka.controller.ClusterControlManagerTest:
 - testReplayBrokerRegistrationChangeRecord
 - testReplayRegisterBrokerRecord
 - testUnregister
+- testUnregisterController
+- testUnregisterControllerWithUnsupportedMetadataVersion
+- testUnregisterUnknownController
 org.apache.kafka.controller.ConfigurationControlManagerTest:
+- ASCII
+- Hangul
+- emoji
+- testAppendChecksFinalUtf8Size
+- testBuilderRequiresPositiveMaxRecordsPerBatch
 - testCordonedLogDirsFeature
 - testElrUpgrade
 - testIncrementalAlterConfig
@@ -116,6 +134,7 @@ org.apache.kafka.controller.EventPerformanceMonitorTest:
 - testSlowestEventWithThreeEvents
 org.apache.kafka.controller.FeatureControlManagerTest:
 - testApplyMetadataVersionChangeRecord
+- testBuilderRequiresPositiveMaxRecordsPerBatch
 - testCanUpgradeToHigherVersion
 - testCanUseSafeDowngradeIfMetadataDidNotChange
 - testCannotDowngradeBeforeMinimumKraftVersion
@@ -261,13 +280,17 @@ org.apache.kafka.controller.QuorumControllerTest:
 - testUncleanShutdownBrokerElrEnabled
 - testUncleanShutdownElrDisabled
 - testUnregisterBroker
+- testUnregisterControllerInVoterSet
 org.apache.kafka.controller.QuorumFeaturesTest:
 - ensureDefaultSupportedFeaturesRangeMaxNotZero
 - testDefaultFeatureMap
 - testDefaultFeatureMapWithUnstable
-- testIsControllerId
+- testIsVoterId
 - testLocalSupportedFeature
 - testReasonNotSupported
+- testVoterIdsAreSuppliedOnEveryCall
+org.apache.kafka.controller.RaftClientVotersSupplierTest:
+- testVoterSupplier
 org.apache.kafka.controller.ReplicationControlManagerTest:
 - testAlterPartitionDisallowReplicationFactorChange
 - testAlterPartitionHandleUnknownTopicIdOrName
@@ -275,12 +298,17 @@ org.apache.kafka.controller.ReplicationControlManagerTest:
 - testAlterPartitionShouldRejectFencedBrokers
 - testAlterPartitionShouldRejectShuttingDownBrokers
 - testBalancePartitionLeaders
+- testBuilderRequiresPositiveMaxRecordsPerBatch
 - testCancelReassignPartitions
 - testCreatePartitions
+- testCreatePartitionsFailsIfLogDirNameIsTooLong
 - testCreatePartitionsFailsWhenAllBrokersAreFencedOrInControlledShutdown
 - testCreatePartitionsFailsWithManualAssignmentWithAllFenced
 - testCreatePartitionsISRInvariants
+- testCreatePartitionsUsesReplicationFactorOfPartitionZero
 - testCreatePartitionsWithMutationQuotaExceeded
+- testCreatePartitionsWithOverSizedBatch
+- testCreateTopicFailsIfLogDirNameIsTooLong
 - testCreateTopicWithCollisionChars
 - testCreateTopics
 - testCreateTopicsISRInvariants
@@ -324,8 +352,10 @@ org.apache.kafka.controller.ReplicationControlManagerTest:
 - testRemoveLeaderships
 - testShrinkAndExpandIsr
 - testTopicNameCollision
+- testTotalNumberOfPartitionsValidationDoesNotOverflow
 - testValidateBadManualPartitionAssignments
 - testValidateGoodManualPartitionAssignments
+- testValidateLogDirNameLength
 - testValidateNewTopicNames
 org.apache.kafka.controller.ResultOrErrorTest:
 - testEquals
@@ -488,6 +518,11 @@ org.apache.kafka.image.ProducerIdsImageTest:
 - testEmptyImageRoundTrip
 - testImage1RoundTrip
 - testImage2RoundTrip
+org.apache.kafka.image.ScramDeltaTest:
+- testAbsentRemovesBeforeUpsertPreservesUsers
+- testAbsentRemovesOnlyLeaveImageEmpty
+- testApplyWithNoChangesReturnsBaseImage
+- testRemoveLastExistingUserClearsImage
 org.apache.kafka.image.ScramImageTest:
 - testApplyDelta1
 - testEmptyImageRoundTrip
@@ -754,9 +789,11 @@ org.apache.kafka.metadata.MetadataCacheTest:
 - testGetLeaderAndIsr
 - testGetLiveBrokerEpoch
 - testGetOfflineReplicasConsidersDirAssignment
+- testGetPartitionLeaderEndpointForKnownPartitionWithoutEndpoint
 - testGetPartitionReplicaEndpoints
 - testIsBrokerFenced
 - testIsBrokerInControlledShutdown
+- testToClusterIncludesFencedReplicasAsOffline
 org.apache.kafka.metadata.MetadataRecordSerdeTest:
 - testDeserializeWithUnhandledFrameVersion
 - testParsingMalformedFrameVersionVarint
@@ -839,11 +876,15 @@ org.apache.kafka.metadata.authorizer.StandardAuthorizerPropertyTest:
 - matchingPrefixAllowWithNoMatchingDenyRules
 - matchingPrefixDenyOverridesAllAllowRules
 org.apache.kafka.metadata.authorizer.StandardAuthorizerTest:
+- testAclWithCidrHost
+- testAclWithIpv6CidrHost
+- testAclsTotalCountMetric
 - testAllowAuditLogging
 - testAllowEveryoneIfNoAclFoundConfigDisabled
 - testAllowEveryoneIfNoAclFoundConfigEnabled
 - testAuthorizationPriorToCompleteInitialLoad
 - testAuthorizationWithManyAcls
+- testAuthorizeByResourceTypeWithCidrHost
 - testAuthorizerMetrics
 - testCompleteInitialLoad
 - testCompleteInitialLoadWithException
@@ -856,6 +897,10 @@ org.apache.kafka.metadata.authorizer.StandardAuthorizerTest:
 - testGetDefaultResult
 - testHostAddressAclValidation
 - testListAcls
+- testOverlappingCidrAllowNarrowDenyWide
+- testOverlappingCidrDenyNarrowAllowWide
+- testOverlappingCidrSamePermissionBothAllow
+- testOverlappingCidrWithWildcardAllow
 - testPrefixAcls
 - testSimpleAuthorizations
 - testStartWithEarlyStartListeners
@@ -899,6 +944,12 @@ org.apache.kafka.metadata.placement.TopicAssignmentTest:
 - testConsistentEqualsAndHashCode
 - testToString
 - testTopicAssignmentReplicas
+org.apache.kafka.metadata.publisher.DynamicClientQuotaPublisherTest:
+- testInvalidIpAddressIsReportedToFaultHandler
+- testIpAddressIsNotResolvedWithoutConnectionRateChanges
+- testIpQuotaUpdateAndRemoval
+- testNoClientQuotaChanges
+- testUserClientQuotaUpdateAndRemoval
 org.apache.kafka.metadata.storage.FormatterTest:
 - testDirectories
 - testFeatureFlag

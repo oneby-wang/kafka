@@ -133,6 +133,10 @@ org.apache.kafka.server.common.MetadataVersionTest:
 - assertLatestIsNotProduction
 - assertLatestProductionIsLessThanLatest
 - assertLatestProductionIsProduction
+- testAllocateProducerIdsRequestHeaderVersion
+- testAlterPartitionRequestHeaderVersion
+- testAssignReplicasToDirsRequestHeaderVersion
+- testControllerRegistrationRequestHeaderVersion
 - testDirectoryAssignmentSupported
 - testFeatureLevels
 - testFromShortVersionString
@@ -267,6 +271,7 @@ org.apache.kafka.server.metrics.KafkaMetricsGroupTest:
 - testTaggedMetricName
 - testTaggedMetricNameWithEmptyValue
 - testUntaggedMetricName
+- testWindowsStyleTagNames
 org.apache.kafka.server.metrics.KafkaYammerMetricsTest:
 - testTaggedMetricName
 - testTaggedMetricNameWithEmptyValue
@@ -274,6 +279,14 @@ org.apache.kafka.server.metrics.KafkaYammerMetricsTest:
 org.apache.kafka.server.metrics.TimeRatioTest:
 - testRatio
 - testRatioMisalignedWindow
+org.apache.kafka.server.mirror.MirrorPartitionStateTest:
+- testAllStatesAreCoveredByTable
+- testFromValue
+- testFromValueInvalid
+- testNameOf
+- testNameOfUnrecognizedValue
+- testRoundTrip
+- testValue
 org.apache.kafka.server.mutable.BoundedListTest:
 - testAddAll
 - testAddingToBoundedList
@@ -361,6 +374,7 @@ org.apache.kafka.server.share.persister.PersisterStateManagerTest:
 - testDeleteStateRequestCoordinatorFoundSuccessfully
 - testDeleteStateRequestFailedMaxRetriesExhausted
 - testDeleteStateRequestRetryWithNotCoordinatorSuccessfulOnRetry
+- testDeleteStateRequestVersionFollowsRequestHeaderVersion
 - testDeleteStateRequestWithCoordinatorNodeLookup
 - testDeleteStateRequestWithRetryAndCoordinatorNodeLookup
 - testFindCoordinatorAttemptsExhausted
@@ -374,6 +388,7 @@ org.apache.kafka.server.share.persister.PersisterStateManagerTest:
 - testInitializeStateRequestCoordinatorFoundSuccessfully
 - testInitializeStateRequestFailedMaxRetriesExhausted
 - testInitializeStateRequestRetryWithNotCoordinatorSuccessfulOnRetry
+- testInitializeStateRequestVersionFollowsRequestHeaderVersion
 - testInitializeStateRequestWithCoordinatorNodeLookup
 - testInitializeStateRequestWithRetryAndCoordinatorNodeLookup
 - testPersisterStateManagerClose
@@ -384,6 +399,7 @@ org.apache.kafka.server.share.persister.PersisterStateManagerTest:
 - testReadStateRequestIllegalStateCoordinatorFoundSuccessfully
 - testReadStateRequestRetryWithCoordinatorNodeLookup
 - testReadStateRequestRetryWithNotCoordinatorSuccessfulOnRetry
+- testReadStateRequestVersionFollowsRequestHeaderVersion
 - testReadStateRequestWithCoordinatorNodeLookup
 - testReadStateSummaryClientResponseErrorRetriesExhausted
 - testReadStateSummaryRequestCoordinatorFoundOnRetry
@@ -392,14 +408,21 @@ org.apache.kafka.server.share.persister.PersisterStateManagerTest:
 - testReadStateSummaryRequestIllegalStateCoordinatorFoundSuccessfully
 - testReadStateSummaryRequestRetryWithCoordinatorNodeLookup
 - testReadStateSummaryRequestRetryWithNotCoordinatorSuccessfulOnRetry
+- testReadStateSummaryRequestVersionFollowsRequestHeaderVersion
 - testReadStateSummaryRequestWithCoordinatorNodeLookup
 - testResponseErrorHandling
 - testWriteStateClientResponseErrorRetriesExhausted
+- testWriteStateCombinedResponseDemultiplexedPerTopicPartition
+- testWriteStateCombinedResponseIndexedOncePerBatch
+- testWriteStateCombinedResponseMissingPartitionFailsOnlyThatHandler
+- testWriteStateCombinedResponseNullClientResponseCompletesAllHandlers
 - testWriteStateRequestBatchingWithCoordinatorNodeLookup
 - testWriteStateRequestCoordinatorFoundOnRetry
 - testWriteStateRequestCoordinatorFoundSuccessfully
 - testWriteStateRequestFailedMaxRetriesExhausted
 - testWriteStateRequestRetryWithNotCoordinatorSuccessfulOnRetry
+- testWriteStateRequestVersionFollowsRequestHeaderVersion
+- testWriteStateRequestVersionFollowsRequestHeaderVersionChange
 - testWriteStateRequestWithCoordinatorNodeLookup
 - testWriteStateRequestWithRetryAndCoordinatorNodeLookup
 org.apache.kafka.server.util.CommandLineUtilsTest:
@@ -467,6 +490,19 @@ org.apache.kafka.server.util.JsonTest:
 - testJsonValueEquals
 - testJsonValueHashCode
 - testJsonValueToString
+org.apache.kafka.server.util.MirrorUtilsTest:
+- testCompilePatternListMatchesWildcard
+- testCompilePatternListSingleItem
+- testCompilePatternListWithBlankStrings
+- testCompilePatternListWithEmptyList
+- testCompilePatternListWithMultiplePatterns
+- testCompilePatternListWithRegexPatterns
+- testCompilePatternListWithWhitespace
+- testCompilePatternWithBlankString
+- testCompilePatternWithEmptyString
+- testCompilePatternWithNull
+- testCompilePatternWithValidPattern
+- testCompilePatternWithWhitespace
 org.apache.kafka.server.util.ShutdownableThreadTest:
 - testIsThreadStarted
 - testShutdownWhenCalledAfterThreadStart
@@ -518,8 +554,12 @@ org.apache.kafka.timeline.SnapshottableHashTableTest:
 - testDeleteOnEmptyDeltaTable
 - testEmptyTable
 - testIterateOverSnapshot
+- testIterateOverSnapshotAfterDeletingNextSnapshot
+- testIterateOverSnapshotAfterRevert
+- testIterateOverSnapshotAfterRevertAndRemove
 - testIterateOverSnapshotWhileDeletingAndReplacing
 - testIterateOverSnapshotWhileExpandingTable
+- testIterateOverSnapshotsAfterRandomOperations
 - testIteratorAtOlderEpoch
 - testReset
 - testRevert

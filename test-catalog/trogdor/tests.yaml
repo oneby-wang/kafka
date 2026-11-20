@@ -98,9 +98,34 @@ org.apache.kafka.trogdor.workload.PayloadGeneratorTest:
 - testUniformRandomPayloadGenerator
 - testUniformRandomPayloadGeneratorPaddingBytes
 org.apache.kafka.trogdor.workload.ShareConsumeBenchSpecTest:
+- testAcknowledgeTypeAbsentByDefault
+- testAcknowledgeTypeAndRecordAcknowledgerAreMutuallyExclusive
+- testAcknowledgeTypeParsedFromJson
 - testDefaultShareGroupName
 - testExpandTopicNames
 - testInvalidNameRaisesException
+- testInvalidRecordAcknowledgerRaisesException
+- testInvalidShareGroupDLQTopicNameRaisesException
+- testRandomRecordAcknowledger
+- testRecordAcknowledgerAndDLQConfigAbsentByDefault
+- testRecordAcknowledgerParsedFromJson
+- testShareGroupDLQConfigDefaults
+- testShareGroupDLQConfigParsedFromJson
+- testUnsupportedAcknowledgeTypeRaisesException
+org.apache.kafka.trogdor.workload.ShareConsumeBenchWorkerTest:
+- testAuthorizationErrorFailsWithoutRetrying
+- testConfigsAlreadySetAreLeftAlone
+- testConfigsAreAlteredWhenTheyCannotBeDescribed
+- testConfigsWithADifferentValueAreAltered
+- testFailedAlterIsRetriedAfterTheBackoff
+- testGivesUpAfterAllAttempts
+- testInterruptDuringDescribeIsRestoredAndNotRetried
+- testInterruptIsRestoredAndNotRetried
+- testMissingConfigsAreAltered
+- testNonApiExceptionIsRetried
+- testNonRetriableErrorFailsWithoutRetrying
+- testRetriableApiExceptionIsRetried
+- testRetryStopsWhenAnotherConsumerSetsTheConfigs
 org.apache.kafka.trogdor.workload.ThrottleTest:
 - testThrottle
 org.apache.kafka.trogdor.workload.TimeIntervalTransactionsGeneratorTest:

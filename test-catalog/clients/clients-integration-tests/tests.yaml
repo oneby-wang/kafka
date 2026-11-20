@@ -24,6 +24,9 @@ org.apache.kafka.clients.MetadataVersionIntegrationTest:
 org.apache.kafka.clients.MetricsDuringTopicCreationDeletionTest:
 - testMetricsDuringTopicCreateDelete
 org.apache.kafka.clients.admin.AddPartitionsTest:
+- testCreatePartitions
+- testCreatePartitionsAcrossMetadataVersions
+- testIncreasePartitionsUsesReplicationFactorOfPartitionZero
 - testIncrementPartitions
 - testManualAssignmentOfReplicas
 - testMissingPartitionsInCreatePartitions
@@ -32,13 +35,53 @@ org.apache.kafka.clients.admin.AddPartitionsTest:
 - testReplicaPlacementPartialServers
 - testWrongReplicaCount
 org.apache.kafka.clients.admin.AdminClientTimeoutIntegrationTest:
+- testAbortTransactionTimeout
+- testAdminClientHandlingBadIPWithoutTimeout
 - testCallInFlightTimeouts
+- testClose
+- testDelayedClose
+- testDescribeConfigWithOptionTimeoutMs
+- testDescribeTransactionsTimeout
+- testDescribeUserScramCredentialsTimeout
+- testForceClose
+- testListClientMetricsResourcesTimeoutMs
+- testListConfigResourcesTimeoutMs
+- testMinimumRequestTimeouts
 org.apache.kafka.clients.admin.AdminClientWithPoliciesIntegrationTest:
 - testInvalidAlterConfigsDueToPolicy
 org.apache.kafka.clients.admin.AdminFenceProducersTest:
 - testFenceAfterProducerCommit
 - testFenceBeforeProducerCommit
 - testFenceProducerTimeoutMs
+org.apache.kafka.clients.admin.AdminMetadataTest:
+- testCreateExistingTopicsThrowTopicExistsException
+- testDeleteTopicsWithIds
+- testDeleteTopicsWithOptionTimeoutMs
+- testDescribeCluster
+- testDescribeConfigsForTopic
+- testDescribeLogDirs
+- testDescribeNonExistingTopic
+- testDescribeReplicaLogDirs
+- testDescribeTopicsWithIds
+- testDescribeTopicsWithNames
+- testDescribeTopicsWithOptionPartitionSizeLimitPerResponse
+- testDescribeTopicsWithOptionTimeoutMs
+- testIncludeDocumentation
+- testListNodes
+- testListNodesWithFencedBroker
+- testListTopicsWithOptionListInternal
+- testListTopicsWithOptionTimeoutMs
+org.apache.kafka.clients.admin.AlterConfigsIntegrationTest:
+- testAlterConfigsRespectsConfigProviderAllowlist
+- testAlterConfigsWithConfigProviders
+- testAlterConfigsWithConfigProvidersAndValidatorRejection
+- testAlterConfigsWithConfigProvidersForBooleanConfig
+- testAlterConfigsWithConfigProvidersForClusterWideIntConfig
+- testAlterConfigsWithConfigProvidersForDoubleConfig
+- testAlterConfigsWithConfigProvidersForListConfig
+- testAlterConfigsWithConfigProvidersForLongConfig
+- testAlterConfigsWithConfigProvidersForPerBrokerIntConfig
+- testAlterConfigsWithConfigProvidersWithoutAcls
 org.apache.kafka.clients.admin.AutoTopicCreationTest:
 - testAutoCreateTopicWithDefaultConfig
 - testAutoCreateTopicWithExplicitBrokerConfig
@@ -49,11 +92,21 @@ org.apache.kafka.clients.admin.ClientTelemetryTest:
 - testMetrics
 org.apache.kafka.clients.admin.ConcurrentListOffsetsRequestTest:
 - correctlyHandleConcurrentModificationOfPartitionLeaderCache
+org.apache.kafka.clients.admin.CreateTopicsTest:
+- testCreateManyTopics
+- testCreateTopicsRespectsConfiguredMaxRecordsPerBatch
+- testOverlyLargeCreateTopics
+org.apache.kafka.clients.admin.DeleteRecordsTest:
+- testDeleteRecordsToHighWatermark
+- testDeleteRecordsWithOffsetLargerThanHighWatermark
+- testDeleteRecordsWithOffsetSmallerThanMinusOne
 org.apache.kafka.clients.admin.DeleteTopicTest:
 - testAddPartitionDuringDeleteTopic
+- testCreateAndDeleteTopic
 - testDeleteNonExistingTopic
 - testDeleteTopicAlreadyMarkedAsDeleted
 - testDeleteTopicDuringAddPartition
+- testDeleteTopicFilesAfterBrokerRestart
 - testDeleteTopicWithAllAliveReplicas
 - testDeleteTopicWithCleaner
 - testDisableDeleteTopic
@@ -65,13 +118,20 @@ org.apache.kafka.clients.admin.DescribeAuthorizedOperationsTest:
 - testClusterAuthorizedOperations
 - testConsumerGroupAuthorizedOperations
 - testTopicAuthorizedOperations
+org.apache.kafka.clients.admin.DescribeConfigsTest:
+- testDescribeConfigsNonexistent
+- testDescribeConfigsTopicWithInternalListConfig
 org.apache.kafka.clients.admin.DescribeFeaturesTest:
+- testApiVersions
+- testDescribeKRaftVersion
 - testSendRequestToWrongNodeType
 - testUnstableApiVersions
 org.apache.kafka.clients.admin.DescribeProducersWithBrokerIdTest:
 - testDescribeProducersDefaultRoutesToLeader
 - testDescribeProducersFromFollower
 - testDescribeProducersWithInvalidBrokerId
+org.apache.kafka.clients.admin.DynamicBrokerConfigTest:
+- testIncreaseNumIoThreads
 org.apache.kafka.clients.admin.DynamicGroupConfigIntegrationTest:
 - testDescribeGroupConfigSynonymsWithBrokerSynonym
 - testDescribeGroupConfigSynonymsWithStaticBrokerConfig
@@ -142,7 +202,25 @@ org.apache.kafka.clients.consumer.PlaintextConsumerAssignTest:
 - testClassicAssignAndFetchCommittedOffsets
 - testClassicAssignAndRetrievingCommittedOffsetsMultipleTimes
 - testClassicPollAfterTopicDeleted
+org.apache.kafka.clients.consumer.PlaintextConsumerAssignorsTest:
+- testMultiConsumerDefaultAssignor
+- testMultiConsumerDefaultAssignorAndVerifyAssignment
+- testMultiConsumerRoundRobinAssignor
+- testMultiConsumerStickyAssignor
+- testRebalanceAndRejoinWithCooperativeStickyAssignor
+- testRebalanceAndRejoinWithRangeAssignor
+- testRemoteAssignorInvalid
+- testRemoteAssignorRange
+- testRoundRobinAssignment
 org.apache.kafka.clients.consumer.PlaintextConsumerCallbackTest:
+- testAsyncConsumerAwareAssignmentVisibleOnPartitionsAssigned
+- testAsyncConsumerAwareBeginningOffsetsOnPartitionsAssigned
+- testAsyncConsumerAwareCommitOnPartitionsRevoked
+- testAsyncConsumerAwareGroupMetadataOnPartitionsAssigned
+- testAsyncConsumerAwarePauseStatePersistsAfterAssigned
+- testAsyncConsumerAwarePositionOnPartitionsAssigned
+- testAsyncConsumerAwareSeekAndCommitOnPartitionsAssigned
+- testAsyncConsumerCloseAfterUnsubscribeDoesNotInvokeCallbacks
 - testAsyncConsumerGetPositionOfNewlyAssignedPartitionOnPartitionsAssignedCallback
 - testAsyncConsumerRebalanceListenerAssignOnPartitionsAssigned
 - testAsyncConsumerRebalanceListenerAssignOnPartitionsRevoked
@@ -150,7 +228,18 @@ org.apache.kafka.clients.consumer.PlaintextConsumerCallbackTest:
 - testAsyncConsumerRebalanceListenerAssignmentOnPartitionsRevoked
 - testAsyncConsumerRebalanceListenerBeginningOffsetsOnPartitionsAssigned
 - testAsyncConsumerRebalanceListenerBeginningOffsetsOnPartitionsRevoked
+- testAsyncConsumerRebalanceListenerRemovedByNull
+- testAsyncConsumerRebalanceListenerRetainedAfterUnsubscribe
 - testAsyncConsumerSeekPositionAndPauseNewlyAssignedPartitionOnPartitionsAssignedCallback
+- testAsyncRebalanceConsumerExpiredAfterAssignedCallback
+- testClassicConsumerAwareAssignmentVisibleOnPartitionsAssigned
+- testClassicConsumerAwareBeginningOffsetsOnPartitionsAssigned
+- testClassicConsumerAwareCommitOnPartitionsRevoked
+- testClassicConsumerAwareGroupMetadataOnPartitionsAssigned
+- testClassicConsumerAwarePauseStatePersistsAfterAssigned
+- testClassicConsumerAwarePositionOnPartitionsAssigned
+- testClassicConsumerAwareSeekAndCommitOnPartitionsAssigned
+- testClassicConsumerCloseAfterUnsubscribeDoesNotInvokeCallbacks
 - testClassicConsumerGetPositionOfNewlyAssignedPartitionOnPartitionsAssignedCallback
 - testClassicConsumerRebalanceListenerAssignOnPartitionsAssigned
 - testClassicConsumerRebalanceListenerAssignOnPartitionsRevoked
@@ -158,7 +247,10 @@ org.apache.kafka.clients.consumer.PlaintextConsumerCallbackTest:
 - testClassicConsumerRebalanceListenerAssignmentOnPartitionsRevoked
 - testClassicConsumerRebalanceListenerBeginningOffsetsOnPartitionsAssigned
 - testClassicConsumerRebalanceListenerBeginningOffsetsOnPartitionsRevoked
+- testClassicConsumerRebalanceListenerRemovedByNull
+- testClassicConsumerRebalanceListenerRetainedAfterUnsubscribe
 - testClassicConsumerSeekPositionAndPauseNewlyAssignedPartitionOnPartitionsAssignedCallback
+- testClassicRebalanceConsumerExpiredAfterAssignedCallback
 - testOnPartitionsAssignedCalledWithNewPartitionsOnlyForAsyncConsumer
 - testOnPartitionsAssignedCalledWithNewPartitionsOnlyForClassicCooperative
 - testOnPartitionsAssignedCalledWithNewPartitionsOnlyForClassicEager
@@ -345,6 +437,13 @@ org.apache.kafka.clients.consumer.SaslPlainPlaintextConsumerTest:
 - testClassicConsumerClusterResourceListener
 - testClassicConsumerCoordinatorFailover
 - testClassicConsumerSimpleConsumption
+org.apache.kafka.clients.consumer.SaslPlaintextConsumerTest:
+- testAsyncConsumeCoordinatorFailover
+- testAsyncConsumerClusterResourceListener
+- testAsyncConsumerSimpleConsumption
+- testClassicConsumerClusterResourceListener
+- testClassicConsumerCoordinatorFailover
+- testClassicConsumerSimpleConsumption
 org.apache.kafka.clients.consumer.ShareConsumerCallbackTest:
 - testAcknowledgementCommitCallbackCallsShareConsumerDisallowed
 - testAcknowledgementCommitCallbackCallsShareConsumerWakeup
@@ -355,10 +454,14 @@ org.apache.kafka.clients.consumer.ShareConsumerCallbackTest:
 - testAcknowledgementCommitCallbackThrowsException
 - testAcknowledgementSentOnSubscriptionChange
 org.apache.kafka.clients.consumer.ShareConsumerDLQTest:
+- testDlqCopiesOriginalRecordHeaders
 - testDlqCopiesRecordsReadFromRemoteAndLocalStorage
 - testDlqCopiesRecordsReadFromRemoteStorage
+- testDlqCopyRecordSkippedWhenDecompressedSizeExceedsDlqMaxMessageBytes
 - testDlqNotTriggeredWhenGatedOff
+- testDlqOriginalHeaderCollidingWithDlqHeaderIsOverwritten
 - testDlqRecordsRoutedToCorrectDlqPartition
+- testDlqRespectsDlqTopicMaxMessageBytesNotEqToSourceTopic
 - testDlqStopsAfterDisablingForGroup
 - testManyRejectedRecordsAllWrittenToDlq
 - testMixedAcknowledgementTypesWrittenToDlq
@@ -393,6 +496,12 @@ org.apache.kafka.clients.consumer.ShareConsumerDeliveryTest:
 - testShareAutoOffsetResetEarliest
 - testShareAutoOffsetResetEarliestAfterLsoMovement
 - testShareAutoOffsetResetMultipleGroupsWithDifferentValue
+org.apache.kafka.clients.consumer.ShareConsumerFairnessTest:
+- testPartitionWithoutRecordsIsReadFirstWhenRecordsArrive
+- testPartitionsRotateWhenAllPartitionsReturnRecordsWithExplicitAcknowledgement
+- testPartitionsRotateWhenAllPartitionsReturnRecordsWithImplicitAcknowledgement
+- testPartitionsServedFairlyInImplicitMode
+- testPartitionsServedFairlyWithExplicitAcknowledgements
 org.apache.kafka.clients.consumer.ShareConsumerLagTest:
 - testSharePartitionLagAfterAlterShareGroupOffsets
 - testSharePartitionLagAfterDeleteShareGroupOffsets
@@ -468,7 +577,10 @@ org.apache.kafka.clients.consumer.ShareConsumerTest:
 org.apache.kafka.clients.producer.ProducerCompressionTest:
 - testCompression
 org.apache.kafka.clients.producer.ProducerFailureHandlingTest:
-- testCannotSendToInternalTopic
+- testCannotSendToInternalTopicWhenAutoCreateFalseAndTopicExists
+- testCannotSendToInternalTopicWhenAutoCreateFalseAndTopicNotExists
+- testCannotSendToInternalTopicWhenAutoCreateTrueAndTopicExists
+- testCannotSendToInternalTopicWhenAutoCreateTrueAndTopicNotExists
 - testInvalidPartition
 - testNonExistentTopic
 - testNotEnoughReplicasAfterBrokerShutdown
@@ -492,6 +604,9 @@ org.apache.kafka.clients.producer.ProducerSendWhileDeletionTest:
 - testSendWithRecreatedTopic
 - testSendWithTopicDeletionMidWay
 - testSendWithTopicReassignmentIsMidWay
+org.apache.kafka.clients.producer.TransactionsBounceTest:
+- testWithGroupMetadataClassic
+- testWithGroupMetadataConsumer
 org.apache.kafka.clients.security.GroupAuthorizerIntegrationTest:
 - testAsyncConsumeCloseWithGroupPermission
 - testAsyncConsumeUnsubscribeWithGroupPermission
