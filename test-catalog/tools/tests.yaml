@@ -336,6 +336,8 @@ org.apache.kafka.tools.FeatureCommandTest:
 - testIncompatibleUpgradeFlags
 - testInvalidReleaseVersion
 - testLevelToString
+- testMirrorVersionCanBeEnabledAndDisabled
+- testMirrorVersionRequiresNewMetadataVersion
 - testParseNameAndLevel
 - testUpgradeMetadataVersionWithKraft
 - testUpgradeWithReleaseVersion
@@ -806,6 +808,7 @@ org.apache.kafka.tools.consumer.GroupMetadataMessageFormatterTest:
 org.apache.kafka.tools.consumer.MirrorStateMessageFormatterTest:
 - testMalformedRecord
 - testMessageFormatter
+- testRoundTrip
 - testUnsupportedValueVersion
 org.apache.kafka.tools.consumer.NoOpMessageFormatterTest:
 - testNoOpMessageFormatter
